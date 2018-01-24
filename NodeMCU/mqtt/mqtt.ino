@@ -1,9 +1,12 @@
 #include <ESP8266WiFi.h>
 #include <MQTTClient.h>
+
 const char ssid[] = "SPZ-Mobile";
 const char pass[] = "ciaocomestai";
+
 WiFiClient wifi_client;
 MQTTClient mqtt_client;
+
 void setup()
 {
   Serial.begin(115200);
@@ -17,22 +20,22 @@ void setup()
 
 void connect()
 {
-  Serial.print("checking wifi...");
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    Serial.print(".");
-    delay(1000);
+  while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
   }
-  Serial.print("\nconnecting...");
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+  
   String clientId = "ESP8266Client-";
   clientId += String(random(0xffff), HEX);
-  while (!mqtt_client.connect(clientId.c_str()))
-  {
+  while (!mqtt_client.connect(clientId.c_str())) {
     Serial.print(".");
     delay(1000);
   }
-  Serial.println("\nconnected!");
-  printWifiStatus();
+  Serial.println("\nMQTT connected!");
   mqtt_client.subscribe("42/LED_STATE");
   mqtt_client.subscribe("42/GET_TEMPERATURE");
 }
@@ -66,17 +69,4 @@ void messageReceived(String & topic, String & payload)
       digitalWrite(LED_BUILTIN, LOW);
     }
   }
-}
-
-void printWifiStatus()
-{
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
-  IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
-  Serial.println(ip);
-  long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
-  Serial.print(rssi);
-  Serial.println(" dBm");
 }
