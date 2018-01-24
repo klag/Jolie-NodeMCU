@@ -1,5 +1,5 @@
 constants {
-    CoAP_Resource_Location = "datagram://localhost:5683",
+    CoAP_Resource_Location = "datagram://172.20.10.8:5683",
     MQTT_Broker_Location = "socket://iot.eclipse.org:1883"
 }
 

@@ -14,13 +14,13 @@ outputPort  Resource {
         };
         .osc.ledState << {
             .contentFormat = "text/plain", // content-format option: text/plain, application/xml, application/json, application/link-format (CoRE), application/octet-stream
-            .alias = "/%!{id}/ledState", // alias is mapped as HTTP resource URI-Path, note the initial / mandatory
-            .messageCode = "POST",
+            .alias = "/%!{id}/LED_STATE", // alias is mapped as HTTP resource URI-Path, note the initial / mandatory
+            .messageCode = "PUT",
             .messageType = "CON"
         };
         .osc.getTmp << {
             .contentFormat = "text/plain",
-            .alias = "/%!{id}/getTemperature",
+            .alias = "/%!{id}/GET_TEMPERATURE",
             .messageCode = "GET",
             .messageType = "CON"
         }

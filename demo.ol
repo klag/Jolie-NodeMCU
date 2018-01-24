@@ -2,7 +2,7 @@ include "console.iol"
 
 /* (different) DEPLOYMENTS */
 
-// include "coap.ol"
+//include "coap.ol"
 include "mqtt.ol"
 
 /* (same) BEHAVIOUR */
@@ -15,9 +15,9 @@ main {
     //     println@Console( response )()
     // };
 
-    ledState@Resource( "OFF" { .id = "42" } );
+    ledState@Resource( "OFF" { .id = "42" } )//;
 
-    getTmp@Resource( { .id = "42" } )( response );
-    println@Console( "\nSensor n.42 forwarded temperature " + response + " C" )()
+    // getTmp@Resource( { .id = "42" } )( response );
+    // println@Console( "\nSensor n.42 forwarded temperature " + response + " C" )()
 
 }
