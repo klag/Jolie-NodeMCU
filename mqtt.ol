@@ -3,7 +3,7 @@ include "interface.iol"
 outputPort Resource {
     Location: MQTT_Broker_Location // in output we directly speak with the broker
     Protocol: mqtt {
-        .debug = true;
+        .debug = false;
         .osc.ledState << {
             .format = "raw", // binary format, json or xml
             .alias = "%!{id}/LED_STATE", // direct mapping with the topic

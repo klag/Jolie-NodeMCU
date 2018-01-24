@@ -5,7 +5,7 @@ include "interface.iol"
 outputPort  Resource {
     Location: CoAP_Resource_Location
     Protocol: coap {
-        .debug = true;
+        .debug = false;
         .proxy = false; // yes, we could surf over a proxy
         .osc.core << {
             .alias = "/%!{id}/.well-known/core", // Constrained RESTful Environments (CoRE) - charter-ietf-core-02
