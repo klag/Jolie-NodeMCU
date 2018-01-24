@@ -1,9 +1,6 @@
-include "console.iol"
 include "interface.iol"
 
-/* (different) DEPLOYMENT */
-
-outputPort MQTT_Resource {
+outputPort Resource {
     Location: MQTT_Broker_Location // in output we directly speak with the broker
     Protocol: mqtt {
         .debug = true;
@@ -20,15 +17,4 @@ outputPort MQTT_Resource {
         }
     }
     Interfaces: resourceInterface
-}
-
-/* (same) BEHAVIOUR */
-
-main {
-    
-    ledState@MQTT_Resource( "OFF" { .id = "42" } )//;
-
-    // getTmp@MQTT_Resource( { .id = "42" } )( response );
-    // println@Console( "\nResource n.42 forwarded temperature " + response + " C" )()
-
 }

@@ -1,9 +1,8 @@
-include "console.iol"
 include "interface.iol"
 
 /* (different) DEPLOYMENT */
 
-outputPort  CoAP_Resource {
+outputPort  Resource {
     Location: CoAP_Resource_Location
     Protocol: coap {
         .debug = true;
@@ -27,20 +26,4 @@ outputPort  CoAP_Resource {
         }
     }
     Interfaces: resourceInterface
-}
-
-/* (same) BEHAVIOUR */
-
-main {
-
-    println@Console( "Resources available @ CoAP actuator are:\n" )( ) | {
-        core@CoAP_Resource( )( response );
-        println@Console( response )()
-    };
-
-    ledState@CoAP_Resource( "ON" { .id = "42" } );
-
-    getTmp@CoAP_Resource( { .id = "42" } )( response );
-    println@Console( "\nSensor n.42 forwarded temperature " + response + " C" )()
-
 }
