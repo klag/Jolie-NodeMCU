@@ -53,7 +53,8 @@ void messageReceived(String & topic, String & payload)
   Serial.println("incoming: " + topic + " - " + payload);
   if (topic == "42/GET_TEMPERATURE")
   {
-    
+    String topicResponse = payload.substring(1, payload.length()-1);
+    client.publish(topicResponse, "24");
   }
   else
   {
