@@ -1,3 +1,12 @@
+/* 
+
+CHECK LIST
+1. NodeMCU to USB port
+2. MAC WiFi connected to SPZ-Mobile
+3. NodeMCU IP address, if changed should be changed in interface.iol too
+
+*/
+
 include "console.iol"
 
 /* (different) DEPLOYMENTS */
