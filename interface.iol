@@ -10,5 +10,5 @@ interface resourceInterface {
         ledState( requestType )
     RequestResponse: 
         getTmp( requestType )( string ),
-        core( void )( string )
+        core( requestType )( string )
 }
