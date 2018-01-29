@@ -5,6 +5,7 @@
 
 const char ssid[] = "your_wifi_essid";
 const char pass[] = "your_wifi_password";
+
 char temperature_topic[] = "42/GET_TEMPERATURE"; 
 char led_topic[] = "42/LED_STATE";
 char discovery_service[] = "42/.well-known/core";
