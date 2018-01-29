@@ -1,33 +1,44 @@
-# Project Title
+# Blink NodeMCU with Jolie
 
-One Paragraph of project description goes here
+Sample code that let you make the NodeMCU open hardware blink with the Jolie Programming Language with a few lines of clean code. The blink could be done with MQTT or CoAP application protocols. This could be an easy starting point for Jolie new users or IoT practitioners.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+You only need to flash NodeMCU with the firmware provided, then run the demo.ol code.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+1. the Jolie for IoT interpreter to run the Jolie code - instruction and software @ http://cs.unibo.it/projects/jolie/jiot.html
+2. the Arduino IDE to flash the NodeMCU - http://arduino.cc, then be sure to install the libraries:
+  * MQTT;
+  * Simple CoAP library;
+  * ESP8266WiFi
+  * WifiUDP
+3. a text editor, i use Sublime-Text - https://www.sublimetext.com
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+First of all we need to flash the NodeMCU.ino firmware into the NodeMCU, we will use the Arduino IDE.
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+1. Before flashing modify lines 6-7 to be compatible with your WiFi credentials:
 
 ```
-until finished
+#include <ESP8266WiFi.h>
+#include <WiFiUdp.h>
+#include <coap.h>
+#include <MQTTClient.h>
+
+const char ssid[] = "your_wifi_essid";
+const char pass[] = "your_wifi_password";
+...
+```
+
+Feel free to change topic names (optional) to suite your topology:
+
+```
+char temperature_topic[] = "42/GET_TEMPERATURE"; 
+char led_topic[] = "42/LED_STATE";
+char discovery_service[] = "42/.well-known/core";
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
@@ -72,9 +83,12 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Prof. Maurizio Gabbrielli** - *Theoretical Fundation* - [WebSite](http://cs.unibo.it/~gabbri)
+* **Prof. Ivan Lanese** - *Theoretical Fundation* - [WebSite](http://cs.unibo.it/~ilanese)
+* **Post Doc. Saverio Giallorenzo** - *Theoretical Fundation* - [WebSite](http://cs.unibo.it/~giallor)
+* **PhD Candidate Stefano Pio Zingaro** - *Code and Mainteinance* - [WebSite](http://cs.unibo.it/~stefanopio.zingaro)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](Contributing) who participated in this project.
 
 ## License
 
