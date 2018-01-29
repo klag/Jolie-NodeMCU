@@ -3,8 +3,11 @@
 #include <coap.h>
 #include <MQTTClient.h>
 
-const char ssid[] = "SPZ-Mobile";
-const char pass[] = "ciaocomestai";
+const char ssid[] = "your_wifi_essid";
+const char pass[] = "your_wifi_password";
+char temperature_topic[] = "42/GET_TEMPERATURE"; 
+char led_topic[] = "42/LED_STATE";
+char discovery_service[] = "42/.well-known/core";
 
 void callback_response(CoapPacket &packet, IPAddress ip, int port);
 void callback_light(CoapPacket &packet, IPAddress ip, int port);
@@ -35,12 +38,32 @@ void callback_light(CoapPacket &packet, IPAddress ip, int port) {
   }
 }
 
+char * concatenate_strings(char * str1, char * str2) {
+  char * new_str ;
+  new_str[0] = '\0';
+  strcat(new_str,str1);
+  strcat(new_str,str2);
+  return new_str;  
+}
+
 void callback_core(CoapPacket &packet, IPAddress ip, int port) {
-  coap.sendResponse(ip, port, packet.messageid, "</42/GET_TEMPERATURE>,</42/LED_STATE>");
+  char * discovery = "";
+  char * discovery_begin = "</";
+  char * discovery_end = ">";
+  char * discovery_separator = ",";
+  concatenate_strings(discovery, discovery_begin);
+  concatenate_strings(discovery, temperature_topic);
+  concatenate_strings(discovery, discovery_end);
+  concatenate_strings(discovery, discovery_separator);
+  concatenate_strings(discovery, discovery_begin);
+  concatenate_strings(discovery, led_topic);
+  concatenate_strings(discovery, discovery_end);
+  coap.sendResponse(ip, port, packet.messageid, discovery);
 }
 
 void callback_gettmp(CoapPacket &packet, IPAddress ip, int port) {
-  coap.sendResponse(ip, port, packet.messageid, "24");
+  char temperature[] = "24"; //feel free to take it from a real sensor
+  coap.sendResponse(ip, port, packet.messageid, temperature);
 }
 
 void callback_response(CoapPacket &packet, IPAddress ip, int port) {
@@ -56,12 +79,12 @@ void callback_response(CoapPacket &packet, IPAddress ip, int port) {
 void messageReceived(String & topic, String & payload)
 {
   Serial.println("incoming: " + topic + " - " + payload);
-  if (topic.equals("42/GET_TEMPERATURE"))
+  if (topic.equals(temperature_topic))
   {
     String topicResponse = payload.substring(1, payload.length() - 1);
     mqtt_client.publish(topicResponse, "24");
   }
-  if (topic.equals("42/LED_STATE"))
+  if (topic.equals(led_topic))
   {
     if (payload.equals("OFF"))
     {
@@ -87,9 +110,9 @@ void setup()
   connect();
   
   LEDSTATE = true;
-  coap.server(callback_light, "42/LED_STATE");
-  coap.server(callback_core, "42/.well-known/core");
-  coap.server(callback_gettmp, "42/GET_TEMPERATURE");
+  coap.server(callback_light, led_topic);
+  coap.server(callback_core, discovery_service);
+  coap.server(callback_gettmp, temperature_topic);
   coap.response(callback_response);
   coap.start();
 }
@@ -112,8 +135,8 @@ void connect()
     delay(1000);
   }
   Serial.println("\nMQTT connected!");
-  mqtt_client.subscribe("42/LED_STATE");
-  mqtt_client.subscribe("42/GET_TEMPERATURE");
+  mqtt_client.subscribe(led_topic);
+  mqtt_client.subscribe(temperature_topic);
 }
 
 void loop() {
